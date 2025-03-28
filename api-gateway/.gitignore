@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### local dev
+/docker/keycloak/data
+/volume-data
