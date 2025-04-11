@@ -4,3 +4,19 @@
 :root {
     font-family: 'Poppins', system-ui, sans-serif;
 }
+
+h1 {
+    font-size: xxx-large;
+}
+
+h2 {
+    font-size: xx-large;
+}
+
+h3 {
+    font-size: x-large;
+}
+
+h4 {
+    font-size: large;
+}

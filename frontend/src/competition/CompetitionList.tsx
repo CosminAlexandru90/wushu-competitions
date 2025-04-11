@@ -2,7 +2,7 @@ import React from 'react';
 
 export const CompetitionList: React.FC = () => {
     return (
-      <div className={'flex flex-col items-center justify-center'}>
+      <div className={'flex flex-col p-4 h-full w-full'}>
         <h2>Competitions</h2>
         <ul>
           <a href={'/competition/id'}><li>CAMPIONAT NAȚIONAL YONGCHUNQUAN (WING CHUN)</li></a>

@@ -2,7 +2,7 @@ import React from 'react';
 
 export const UserInfo: React.FC = () => {
     return (
-        <div className={'flex flex-col items-center justify-center'}>
+        <div className={'flex flex-col p-4 h-full w-full'}>
             <h2>User info</h2>
           <ul>
             <li>Last name: Grindeanu</li>

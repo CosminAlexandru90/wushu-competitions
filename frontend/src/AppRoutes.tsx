@@ -3,13 +3,12 @@ import {UserList} from "./user/UserList.tsx";
 import {UserInfo} from "./user/details/UserInfo.tsx";
 import {Home} from "./home/Home.tsx";
 import Layout from "./layout/Layout.tsx";
-import {JudgeList} from "./judge/JudgeList.tsx";
-import {JudgeInfo} from "./judge/details/JudgeInfo.tsx";
 import {CourseList} from "./course/CourseList.tsx";
 import {CourseInfo} from "./course/details/CourseInfo.tsx";
 import {CompetitionList} from "./competition/CompetitionList.tsx";
 import {CompetitionInfo} from "./competition/details/CompetitionInfo.tsx";
 import {Onboarding} from "./onboarding/Onboarding.tsx";
+import {JudgeLanding} from "./judge/JudgeLanding.tsx";
 
 const AppRoutes: RouteObject[] = [
   {
@@ -34,19 +33,6 @@ const AppRoutes: RouteObject[] = [
               {
                 path: 'id',
                 element: <UserInfo />
-              },
-            ]
-          },
-          {
-            path: 'judge',
-            children: [
-              {
-                index: true,
-                element: <JudgeList />
-              },
-              {
-                path: 'id',
-                element: <JudgeInfo />
               },
             ]
           },
@@ -81,7 +67,20 @@ const AppRoutes: RouteObject[] = [
       {
         path:'/onboarding',
         element: <Onboarding />
-      }
+      },
+      {
+        path: 'judge',
+        children: [
+          {
+            index: true,
+            element: <JudgeLanding />
+          },
+          {
+            path: 'id',
+            element: <>Vedem si aici</>
+          },
+        ]
+      },
     ]
   },
 ]

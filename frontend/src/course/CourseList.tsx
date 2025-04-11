@@ -2,7 +2,7 @@ import React from 'react';
 
 export const CourseList: React.FC = () => {
     return (
-      <div className={'flex flex-col items-center justify-center'}>
+      <div className={'flex flex-col p-4 h-full w-full'}>
         <h2>Courses</h2>
         <ul>
           <a href={'/course/id'}><li>Judges course 2025</li></a>
