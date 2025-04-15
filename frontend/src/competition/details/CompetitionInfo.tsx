@@ -4,9 +4,9 @@ import {data} from "./participantsDataSorted";
 export const CompetitionInfo: React.FC = () => {
     return (
       <div className={'flex flex-col px-8 py-4 h-full w-full'}>
-        <h2>CAMPIONAT NAȚIONAL YONGCHUNQUAN (WING CHUN)</h2>
-        <table className="min-w-[1000px] w-full table-auto border border-gray-300 shadow-sm rounded-lg overflow-hidden">
-          <thead className="bg-gray-100 text-left text-sm uppercase tracking-wider">
+        <h2 className={'my-2'}>CAMPIONAT NAȚIONAL YONGCHUNQUAN (WING CHUN)</h2>
+        <table className="min-w-[1000px] w-full table-auto border border-gray-300 shadow-sm rounded-lg overflow-hidden bg-amber-950/30">
+          <thead className="bg-amber-800/30 text-left text-sm uppercase tracking-wider">
           <tr>
             <th className="px-2 py-2">Rank</th>
             <th className="px-2 py-2">Name</th>
@@ -30,8 +30,8 @@ export const CompetitionInfo: React.FC = () => {
               key={athlete.id}
               className={
                 athlete.note === "Did not participate"
-                  ? "bg-red-50 text-gray-500"
-                  : "border-t"
+                  ? "bg-red-950/30 text-white/50"
+                  : ""
               }
             >
               <td className="px-2 py-1">{athlete.rank}</td>

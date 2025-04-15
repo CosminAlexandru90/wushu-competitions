@@ -1,6 +1,4 @@
 import {createBrowserRouter, Outlet, RouteObject} from "react-router";
-import {UserList} from "./user/UserList.tsx";
-import {UserInfo} from "./user/details/UserInfo.tsx";
 import {Home} from "./home/Home.tsx";
 import Layout from "./layout/Layout.tsx";
 import {CourseList} from "./course/CourseList.tsx";
@@ -9,11 +7,12 @@ import {CompetitionList} from "./competition/CompetitionList.tsx";
 import {CompetitionInfo} from "./competition/details/CompetitionInfo.tsx";
 import {Onboarding} from "./onboarding/Onboarding.tsx";
 import {JudgeLanding} from "./judge/JudgeLanding.tsx";
+import {UserContextProvider} from "./session/UserContext.tsx";
 
 const AppRoutes: RouteObject[] = [
   {
     path: '/',
-    element: <><Outlet /></>,
+    element: <UserContextProvider><Outlet /></UserContextProvider>,
     children:[
       {
         path:'/',
@@ -22,19 +21,6 @@ const AppRoutes: RouteObject[] = [
           {
             index: true,
             element: <Home />
-          },
-          {
-            path: 'user',
-            children: [
-              {
-                index: true,
-                element: <UserList />
-              },
-              {
-                path: 'id',
-                element: <UserInfo />
-              },
-            ]
           },
           {
             path: 'competition',

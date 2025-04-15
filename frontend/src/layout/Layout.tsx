@@ -6,7 +6,7 @@ import {Footer} from "./Footer.tsx";
 
 const Layout: React.FC = () => {
     return (
-        <div className={'flex flex-col w-screen min-h-screen p-2'}>
+        <div className={'flex flex-col w-screen min-h-screen p-2 bg-gradient-to-r from-indigo-800 from-10% via-sky-800 via-30% to-emerald-800 to-90%'}>
           <Header />
             <div className={'flex flex-row flex-grow'}>
               <Navigation />
