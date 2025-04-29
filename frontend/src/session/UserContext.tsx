@@ -35,7 +35,7 @@ export const UserContextProvider:React.FC<PropsWithChildren> = ({ children }) =>
 
     return (
         <UserContext.Provider value={{ user, isLoading, error,
-            roles: user?.resource_access['spring-with-test-scope']?.roles ?? []}}>
+            roles: user?.realm_access?.roles ?? []}}>
             {children}
         </UserContext.Provider>
     );

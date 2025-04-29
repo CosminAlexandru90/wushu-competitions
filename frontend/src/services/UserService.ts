@@ -8,10 +8,8 @@ export type UserInfo = {
     family_name: string;
     given_name: string;
     preferred_username: string;
-    resource_access:{
-        'spring-with-test-scope':{
+    realm_access:{
             roles: string[];
-        }
     }
 }
 
