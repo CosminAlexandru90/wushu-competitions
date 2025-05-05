@@ -8,6 +8,10 @@ import {CompetitionInfo} from "./competition/details/CompetitionInfo.tsx";
 import {Onboarding} from "./onboarding/Onboarding.tsx";
 import {JudgeLanding} from "./judge/JudgeLanding.tsx";
 import {UserContextProvider} from "./session/UserContext.tsx";
+import {AthleteList} from "./athlete/AthleteList.tsx";
+import {AthleteInfo} from "./athlete/details/AthleteInfo.tsx";
+import {ClubList} from "./club/ClubList.tsx";
+import {ClubInfo} from "./club/details/ClubInfo.tsx";
 
 const AppRoutes: RouteObject[] = [
   {
@@ -45,6 +49,32 @@ const AppRoutes: RouteObject[] = [
               {
                 path: 'id',
                 element: <CourseInfo />
+              },
+            ]
+          },
+          {
+            path: 'athlete',
+            children: [
+              {
+                index: true,
+                element: <AthleteList />
+              },
+              {
+                path: 'id',
+                element: <AthleteInfo />
+              },
+            ]
+          },
+          {
+            path: 'club',
+            children: [
+              {
+                index: true,
+                element: <ClubList />
+              },
+              {
+                path: 'id',
+                element: <ClubInfo />
               },
             ]
           },

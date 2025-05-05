@@ -15,7 +15,6 @@ export const UserContextProvider:React.FC<PropsWithChildren> = ({ children }) =>
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Fetch user data when the context is mounted
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
@@ -31,7 +30,7 @@ export const UserContextProvider:React.FC<PropsWithChildren> = ({ children }) =>
         };
 
         fetchUserInfo();
-    }, []); // Empty dependency array to run only once when the component mounts
+    }, []);
 
     return (
         <UserContext.Provider value={{ user, isLoading, error,

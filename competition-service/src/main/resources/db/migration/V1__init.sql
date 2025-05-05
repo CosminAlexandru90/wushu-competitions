@@ -8,14 +8,24 @@ CREATE TABLE `competition`
     PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `club`
+(
+    `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `address` VARCHAR(255),
+    `date_established` DATE,
+    PRIMARY KEY (`id`)
+);
+
 CREATE TABLE `judge`
 (
     `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `phone` VARCHAR(20),
-    `club` VARCHAR(255),
-    PRIMARY KEY (`id`)
+    `club_id` BIGINT(20),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`club_id`) REFERENCES club(id)
 );
 
 CREATE TABLE `athlete`
@@ -24,9 +34,11 @@ CREATE TABLE `athlete`
     `name` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `phone` VARCHAR(20),
-    `club` VARCHAR(255),
     `duan` VARCHAR(20),
-    PRIMARY KEY (`id`)
+    `date_of_birth` DATE,
+    `club_id` BIGINT(20),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`club_id`) REFERENCES club(id)
 );
 
 CREATE TABLE `coach`
@@ -35,10 +47,16 @@ CREATE TABLE `coach`
     `name` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `phone` VARCHAR(20),
-    `club` VARCHAR(255),
     `duan` VARCHAR(20),
-    PRIMARY KEY (`id`)
+    `club_id` BIGINT(20),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`club_id`) REFERENCES club(id)
 );
+
+ALTER TABLE `club`
+    ADD COLUMN `head_coach_id` BIGINT(20),
+    ADD CONSTRAINT `fk_club_head_coach`
+        FOREIGN KEY (`head_coach_id`) REFERENCES coach(id);
 
 CREATE TABLE `event`
 (

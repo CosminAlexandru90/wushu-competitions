@@ -34,5 +34,10 @@ public class AthleteController {
         return athleteService.getAthleteById(id);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAthlete(@PathVariable Long id) {
+        athleteService.deleteAthleteById(id);
+    }
 
 }
