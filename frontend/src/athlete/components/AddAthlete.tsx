@@ -1,20 +1,25 @@
 import React, {RefObject, useState} from 'react';
-import {AthleteInfo, getAllAthletes} from "../AthleteService.ts";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {createAthlete} from "../AthleteService.ts";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
-  setAthletes: (athletes: AthleteInfo[]) => void;
 }
 
-export const AddAthlete: React.FC<Props> = ({dialogRef, setAthletes}) => {
+export const AddAthlete: React.FC<Props> = ({dialogRef}) => {
+  const queryClient = useQueryClient()
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     clubId: 1,
+    clubName: '',
     duan: '',
     dateOfBirth: '',
   });
+
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,28 +30,21 @@ export const AddAthlete: React.FC<Props> = ({dialogRef, setAthletes}) => {
     dialogRef?.current?.close();
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(e.target)
-
-    try {
-      const response = await fetch('http://localhost:9000/api/competition/athlete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) throw new Error('Failed to add athlete');
-
-      // Refresh athlete list
-      const updatedAthletes = await getAllAthletes();
-      setAthletes(updatedAthletes);
+  const mutation = useMutation({
+    mutationFn: createAthlete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['athletes'] });
       handleCloseModal();
-    } catch (err) {
-      console.error(err);
+    },
+    onError: (error) => {
+      console.error(error);
       alert('Error submitting form');
-    }
+    },
+  });
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate(formData);
     (e.target as HTMLFormElement).reset();
   };
 

@@ -1,7 +1,5 @@
 package com.example.microservices.competition_service.api.coach.service;
 
-import com.example.microservices.competition_service.api.athlete.dto.AthleteDto;
-import com.example.microservices.competition_service.api.athlete.model.Athlete;
 import com.example.microservices.competition_service.api.coach.dto.CoachDto;
 import com.example.microservices.competition_service.api.coach.model.Coach;
 import com.example.microservices.competition_service.api.coach.repository.CoachRepository;
@@ -19,7 +17,6 @@ public class CoachService {
 
     public void createCoach(CoachDto coachDto) {
         Coach coach = new Coach();
-        coach.setClub(coachDto.club());
         coach.setName(coachDto.name());
         coach.setDuan(coachDto.duan());
         coach.setPhone(coachDto.phone());
@@ -30,7 +27,7 @@ public class CoachService {
     public List<CoachDto> getAllCoaches() {
         return coachRepository.findAll()
                 .stream()
-                .map(coach -> new CoachDto(coach.getId(), coach.getName(), coach.getEmail(), coach.getPhone(), coach.getDuan(), coach.getClub()))
+                .map(this::mapToDto)
                 .toList();
     }
 
@@ -38,13 +35,16 @@ public class CoachService {
         Coach coach = coachRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Coach with ID " + id + " not found"));
 
+        return mapToDto(coach);
+    }
+
+    private CoachDto mapToDto(Coach coach) {
         return new CoachDto(
                 coach.getId(),
                 coach.getName(),
                 coach.getEmail(),
                 coach.getPhone(),
-                coach.getDuan(),
-                coach.getClub()
+                coach.getDuan()
         );
     }
 }

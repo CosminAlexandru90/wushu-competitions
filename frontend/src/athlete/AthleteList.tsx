@@ -1,38 +1,28 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {AthleteInfo, getAllAthletes} from "./AthleteService.ts";
+import React, {useRef} from 'react';
 import {AthleteCard} from "./components/AthleteCard.tsx";
 import {AddAthlete} from "./components/AddAthlete.tsx";
+import {useQuery} from "@tanstack/react-query";
+import {getAthletes} from "./AthleteService.ts";
 
 export const AthleteList: React.FC = () => {
-  const [athletes, setAthletes]=useState<AthleteInfo[] | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        setIsLoading(true);
-        const athletes = await getAllAthletes();
-        setAthletes(athletes); // Set user info from the API
-      } catch (err) {
-        setError("Failed to fetch user data");
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const { isPending, isError, data: athletes, error } = useQuery({
+    queryKey: ['athletes'],
+    queryFn: getAthletes,
+  })
 
-    fetchUserInfo();
-  }, []);
+  if (isPending) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
 
   const handleOpenModal = () => {
     dialogRef.current?.showModal();
   };
-
-
-
-
 
   return (
     <div className={'flex flex-col p-8 gap-4 h-full w-full bg-amber-900/30 m-2 rounded-xl'}>
@@ -42,10 +32,8 @@ export const AthleteList: React.FC = () => {
       </div>
       <ul className={'flex flex-col gap-2'}>
         {athletes?.map((athlete) => (<AthleteCard athlete={athlete} key={athlete.id} />))}
-        {isLoading}
-        {error}
       </ul>
-      <AddAthlete dialogRef={dialogRef} setAthletes={setAthletes} />
+      <AddAthlete dialogRef={dialogRef} />
     </div>
   );
 };

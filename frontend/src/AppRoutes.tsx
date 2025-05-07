@@ -34,7 +34,7 @@ const AppRoutes: RouteObject[] = [
                 element: <CompetitionList />
               },
               {
-                path: 'id',
+                path: ':id',
                 element: <CompetitionInfo />
               },
             ]
@@ -47,7 +47,7 @@ const AppRoutes: RouteObject[] = [
                 element: <CourseList />
               },
               {
-                path: 'id',
+                path: ':id',
                 element: <CourseInfo />
               },
             ]
@@ -60,7 +60,7 @@ const AppRoutes: RouteObject[] = [
                 element: <AthleteList />
               },
               {
-                path: 'id',
+                path: ':id',
                 element: <AthleteInfo />
               },
             ]
@@ -73,7 +73,7 @@ const AppRoutes: RouteObject[] = [
                 element: <ClubList />
               },
               {
-                path: 'id',
+                path: ':id',
                 element: <ClubInfo />
               },
             ]
@@ -92,7 +92,7 @@ const AppRoutes: RouteObject[] = [
             element: <JudgeLanding />
           },
           {
-            path: 'id',
+            path: ':id',
             element: <>Vedem si aici</>
           },
         ]

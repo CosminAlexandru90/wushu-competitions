@@ -1,5 +1,6 @@
 package com.example.microservices.competition_service.api.club.model;
 
+import com.example.microservices.competition_service.api.coach.model.Coach;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,5 +21,9 @@ public class Club {
     private String address;
 
     private LocalDate dateEstablished;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "head_coach_id")
+    private Coach headCoach;
 }
 
