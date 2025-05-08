@@ -12,6 +12,8 @@ import {AthleteList} from "./athlete/AthleteList.tsx";
 import {AthleteInfo} from "./athlete/details/AthleteInfo.tsx";
 import {ClubList} from "./club/ClubList.tsx";
 import {ClubInfo} from "./club/details/ClubInfo.tsx";
+import {CoachList} from "./coach/CoachList.tsx";
+import {CoachInfo} from "./coach/details/CoachInfo.tsx";
 
 const AppRoutes: RouteObject[] = [
   {
@@ -62,6 +64,19 @@ const AppRoutes: RouteObject[] = [
               {
                 path: ':id',
                 element: <AthleteInfo />
+              },
+            ]
+          },
+          {
+            path: 'coach',
+            children: [
+              {
+                index: true,
+                element: <CoachList />
+              },
+              {
+                path: ':id',
+                element: <CoachInfo />
               },
             ]
           },

@@ -28,5 +28,13 @@ public class Coach {
     private String duan;
 
     @OneToMany(mappedBy = "headCoach", fetch = FetchType.LAZY)
+    private List<Club> headCoachedClubs = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "coach_club",
+            joinColumns = @JoinColumn(name = "coach_id"),
+            inverseJoinColumns = @JoinColumn(name = "club_id")
+    )
     private List<Club> clubs = new ArrayList<>();
 }

@@ -1,6 +1,8 @@
 import React, {RefObject, useState} from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createClub} from "../ClubService.ts";
+import {HeadCoachSelect} from "../../components/selects/HeadCoachSelect.tsx";
+import {CoachSelect} from "../../components/selects/CoachSelect.tsx";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
@@ -15,13 +17,18 @@ export const AddClub: React.FC<Props> = ({dialogRef}) => {
     headCoachId: 1,
     headCoachName: '',
     dateEstablished: '',
+    coachIds:[1],
+    coachNames: []
   });
 
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "headCoachId" ? Number(value) : value,
+    }));
   };
 
   const handleCloseModal = () => {
@@ -77,6 +84,15 @@ export const AddClub: React.FC<Props> = ({dialogRef}) => {
           className="border p-2 rounded"
           onChange={handleInputChange}
         />
+        <HeadCoachSelect
+          headCoachId={formData.headCoachId}
+          onChange={handleInputChange}
+        />
+        <CoachSelect
+          coachIds={formData.coachIds}
+          onChange={(selectedCoachIds) =>
+            setFormData(prev => ({ ...prev, coachIds: selectedCoachIds }))
+        } />
         <div className="flex justify-end gap-2">
           <button type="button" onClick={handleCloseModal} className="px-4 py-2 bg-gray-300 rounded">
             Cancel

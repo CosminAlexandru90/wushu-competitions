@@ -1,6 +1,7 @@
 import React, {RefObject, useState} from 'react';
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createAthlete} from "../AthleteService.ts";
+import {ClubSelect} from "../../components/selects/ClubSelect.tsx";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
@@ -21,9 +22,12 @@ export const AddAthlete: React.FC<Props> = ({dialogRef}) => {
 
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "clubId" ? Number(value) : value,
+    }));
   };
 
   const handleCloseModal = () => {
@@ -79,14 +83,7 @@ export const AddAthlete: React.FC<Props> = ({dialogRef}) => {
             className="border p-2 rounded"
             onChange={handleInputChange}
           />
-          <input
-            type="text"
-            name="club"
-            placeholder="Club"
-            required
-            className="border p-2 rounded"
-            onChange={handleInputChange}
-          />
+          <ClubSelect clubId={formData.clubId} onChange={handleInputChange} />
           <input
             type="text"
             name="duan"

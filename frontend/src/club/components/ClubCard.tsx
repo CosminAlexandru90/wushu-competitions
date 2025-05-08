@@ -1,6 +1,7 @@
 import React, {useRef} from "react";
 import {LuTrash} from "react-icons/lu";
 import {ClubInfo} from "../ClubService.ts";
+import {DeleteClub} from "./DeleteClub.tsx";
 
 type Props = {
   club: ClubInfo;
@@ -19,10 +20,11 @@ export const ClubCard: React.FC<Props> = ({club}) => {
         <div className={'text-xl'}>Name: {club.name}</div>
         <div>Address: {club.address}</div>
         <div>Date established: {club.dateEstablished}</div>
-        <div>Coach: {club.headCoachName}</div>
+        <div>Head coach: {club.headCoachName}</div>
+        <div>Coaches: {club.coachNames.map(coachName=>`${coachName}, `)}</div>
       </a>
       <button className={'p-2 rounded-xl bg-red-400/50 flex flex-row items-center gap-2'} onClick={handleOpenDeleteModal} ><LuTrash />Delete</button>
-      {/*<DeleteClub dialogRef={dialogRef} clubId={club.id} />*/}
+      <DeleteClub dialogRef={dialogRef} clubId={club.id} />
     </div>
   );
 };

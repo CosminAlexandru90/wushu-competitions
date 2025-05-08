@@ -5,6 +5,8 @@ export type ClubInfo = {
   headCoachId: number;
   headCoachName: string;
   dateEstablished: string;
+  coachIds: number[];
+  coachNames: string[];
 }
 
 export async function getClubs(): Promise<ClubInfo[]> {

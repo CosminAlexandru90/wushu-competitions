@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "club")
@@ -25,5 +27,8 @@ public class Club {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "head_coach_id")
     private Coach headCoach;
+
+    @ManyToMany(mappedBy = "clubs")
+    private List<Coach> coaches = new ArrayList<>();
 }
 

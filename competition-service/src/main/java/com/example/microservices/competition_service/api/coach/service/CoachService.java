@@ -1,6 +1,8 @@
 package com.example.microservices.competition_service.api.coach.service;
 
+import com.example.microservices.competition_service.api.club.dto.ClubDto;
 import com.example.microservices.competition_service.api.coach.dto.CoachDto;
+import com.example.microservices.competition_service.api.coach.dto.CoachWithClubsDto;
 import com.example.microservices.competition_service.api.coach.model.Coach;
 import com.example.microservices.competition_service.api.coach.repository.CoachRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,27 +27,74 @@ public class CoachService {
         coachRepository.save(coach);
     }
 
-    public List<CoachDto> getAllCoaches() {
+    public List<CoachWithClubsDto> getAllCoaches() {
         return coachRepository.findAll()
                 .stream()
-                .map(this::mapToDto)
+                .map(this::mapToDetailedDto)
                 .toList();
     }
 
-    public CoachDto getCoachById(Long id) {
+    public CoachWithClubsDto getCoachById(Long id) {
         Coach coach = coachRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Coach with ID " + id + " not found"));
 
-        return mapToDto(coach);
+        return mapToDetailedDto(coach);
     }
 
-    private CoachDto mapToDto(Coach coach) {
-        return new CoachDto(
+    public void deleteCoachById(Long id) {
+        if (!coachRepository.existsById(id)) {
+            throw new NoSuchElementException("Coach with ID " + id + " not found");
+        }
+        coachRepository.deleteById(id);
+    }
+
+    private CoachWithClubsDto mapToDetailedDto(Coach coach) {
+        List<ClubDto> headClubs = coach.getHeadCoachedClubs().stream()
+                .map(club -> new ClubDto(
+                        club.getId(),
+                        club.getName(),
+                        club.getAddress(),
+                        club.getHeadCoach() != null ? club.getHeadCoach().getId() : null,
+                        club.getHeadCoach() != null ? club.getHeadCoach().getName() : null,
+                        club.getDateEstablished(),
+                        club.getCoaches().stream()
+                                .filter(coach1 -> !coach1.equals(club.getHeadCoach()))
+                                .map(Coach::getId)
+                                .collect(Collectors.toList()),
+                        club.getCoaches().stream()
+                                .filter(coach1 -> !coach1.equals(club.getHeadCoach()))
+                                .map(Coach::getName)
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+
+        List<ClubDto> memberClubs = coach.getClubs().stream()
+                .map(club -> new ClubDto(
+                        club.getId(),
+                        club.getName(),
+                        club.getAddress(),
+                        club.getHeadCoach() != null ? club.getHeadCoach().getId() : null,
+                        club.getHeadCoach() != null ? club.getHeadCoach().getName() : null,
+                        club.getDateEstablished(),
+                        club.getCoaches().stream()
+                                .filter(coach1 -> !coach1.equals(club.getHeadCoach()))
+                                .map(Coach::getId)
+                                .collect(Collectors.toList()),
+                        club.getCoaches().stream()
+                                .filter(coach1 -> !coach1.equals(club.getHeadCoach()))
+                                .map(Coach::getName)
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+
+        return new CoachWithClubsDto(
                 coach.getId(),
                 coach.getName(),
                 coach.getEmail(),
                 coach.getPhone(),
-                coach.getDuan()
+                coach.getDuan(),
+                headClubs,
+                memberClubs
         );
     }
 }

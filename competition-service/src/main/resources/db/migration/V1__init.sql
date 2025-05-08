@@ -8,13 +8,21 @@ CREATE TABLE `competition`
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `club`
-(
-    `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL,
-    `address` VARCHAR(255),
-    `date_established` DATE,
-    PRIMARY KEY (`id`)
+CREATE TABLE coach (
+                       id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                       name VARCHAR(255) NOT NULL,
+                       email VARCHAR(255) NOT NULL,
+                       phone VARCHAR(20),
+                       duan VARCHAR(20)
+);
+
+CREATE TABLE club (
+                      id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                      name VARCHAR(255) NOT NULL,
+                      address VARCHAR(255),
+                      date_established DATE,
+                      head_coach_id BIGINT,
+                      FOREIGN KEY (head_coach_id) REFERENCES coach(id)
 );
 
 CREATE TABLE `judge`
@@ -26,6 +34,15 @@ CREATE TABLE `judge`
     `club_id` BIGINT(20),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`club_id`) REFERENCES club(id)
+);
+
+-- Many-to-many table for regular coach assignments (not head coach)
+CREATE TABLE coach_club (
+                            coach_id BIGINT NOT NULL,
+                            club_id BIGINT NOT NULL,
+                            PRIMARY KEY (coach_id, club_id),
+                            FOREIGN KEY (coach_id) REFERENCES coach(id),
+                            FOREIGN KEY (club_id) REFERENCES club(id)
 );
 
 CREATE TABLE `athlete`
@@ -40,23 +57,6 @@ CREATE TABLE `athlete`
     PRIMARY KEY (`id`),
     FOREIGN KEY (`club_id`) REFERENCES club(id)
 );
-
-CREATE TABLE `coach`
-(
-    `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL,
-    `email` VARCHAR(255) NOT NULL,
-    `phone` VARCHAR(20),
-    `duan` VARCHAR(20),
-    `club_id` BIGINT(20),
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`club_id`) REFERENCES club(id)
-);
-
-ALTER TABLE `club`
-    ADD COLUMN `head_coach_id` BIGINT(20),
-    ADD CONSTRAINT `fk_club_head_coach`
-        FOREIGN KEY (`head_coach_id`) REFERENCES coach(id);
 
 CREATE TABLE `event`
 (
