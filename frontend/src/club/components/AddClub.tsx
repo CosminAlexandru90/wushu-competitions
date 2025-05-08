@@ -1,6 +1,6 @@
 import React, {RefObject, useState} from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {createClub} from "../ClubService.ts";
+import {ClubInfo, createClub} from "../ClubService.ts";
 import {HeadCoachSelect} from "../../components/selects/HeadCoachSelect.tsx";
 import {CoachSelect} from "../../components/selects/CoachSelect.tsx";
 
@@ -11,14 +11,14 @@ type Props = {
 export const AddClub: React.FC<Props> = ({dialogRef}) => {
   const queryClient = useQueryClient()
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Omit<ClubInfo, 'id'>>({
     name: '',
     address: '',
-    headCoachId: 1,
+    headCoachId: 0,
     headCoachName: '',
     dateEstablished: '',
-    coachIds:[1],
-    coachNames: []
+    coachIds:[],
+    coachNames: [],
   });
 
 
@@ -60,14 +60,16 @@ export const AddClub: React.FC<Props> = ({dialogRef}) => {
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-96">
         <h3 className="text-lg font-bold">Add Club</h3>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          required
-          className="border p-2 rounded"
-          onChange={handleInputChange}
-        />
+        <div className="flex flex-col">
+          <p>Name</p>
+          <input
+            type="text"
+            name="name"
+            required
+            className="border p-2 rounded"
+            onChange={handleInputChange}
+          />
+        </div>
         <input
           type="text"
           name="address"
